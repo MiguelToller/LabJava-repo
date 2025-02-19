@@ -1,1 +1,1 @@
-# OOP-repo
+# Object-Oriented Programming Discipline
