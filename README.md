@@ -1,1 +1,1 @@
-# Object-Oriented Programming Discipline
+# Software Development Lab Discipline
