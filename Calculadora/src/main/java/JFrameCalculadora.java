@@ -4,8 +4,8 @@
  */
 
 /**
- *
- * @author laboratorio
+ * Classe principal que contem os metodos da calculadora
+ * @author Miguel
  */
 public class JFrameCalculadora extends javax.swing.JFrame {
 
@@ -14,6 +14,57 @@ public class JFrameCalculadora extends javax.swing.JFrame {
      */
     public JFrameCalculadora() {
         initComponents();
+        setTitle("Calculadora");
+    }
+    
+    /**
+     * Metodo de classe que adiciona numeros no painel
+     * @param numero 
+     */
+    private void adicionarNumero(String numero) {
+        String valorAtual = txtResultado.getText();
+
+        // Se estiver com Erro, reinicia o painel
+        if (valorAtual.equals("Erro")) {
+            valorAtual = "0";
+            txtResultado.setText(valorAtual);
+        }
+        
+        if (valorAtual.equals("0")) {
+            txtResultado.setText(numero);
+        } else {
+            txtResultado.setText(valorAtual + numero);
+        }
+    }
+    
+    /**
+     * Metodo de classe que define o operador e o primeiro numero
+     * @param operadorEscolhido 
+     */
+    private void definirOperacao(String operadorEscolhido) {
+        primeiroNumero = Double.parseDouble(txtResultado.getText());
+        operador = operadorEscolhido;
+        txtResultado.setText(primeiroNumero + " " + operador + " ");
+    }
+    
+    /**
+     * Metodo de classe para adicionar ponto flutuante
+     */
+    private void adicionarPonto(){
+        String valorAtual = txtResultado.getText();
+        
+        // Se estiver com Erro, reinicia o painel
+        if (valorAtual.equals("Erro")) {
+            valorAtual = "0";
+            txtResultado.setText(valorAtual);
+        }
+        
+        String[] partes = valorAtual.split(" ");
+        String ultimo = partes[partes.length - 1];
+        
+        if(!ultimo.contains(".")) {
+            txtResultado.setText(valorAtual + ".");
+        }
     }
 
     /**
@@ -39,10 +90,13 @@ public class JFrameCalculadora extends javax.swing.JFrame {
         btnMais = new javax.swing.JButton();
         btnMenos = new javax.swing.JButton();
         btnDividir = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
         btnIgual = new javax.swing.JButton();
         btnResto = new javax.swing.JButton();
         txtResultado = new javax.swing.JTextField();
+        btnDelete = new javax.swing.JButton();
+        btnPonto = new javax.swing.JButton();
+        btnElevado = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,44 +171,90 @@ public class JFrameCalculadora extends javax.swing.JFrame {
         });
 
         btnVezes.setText("x");
+        btnVezes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVezesActionPerformed(evt);
+            }
+        });
 
         btnMais.setText("+");
+        btnMais.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMaisActionPerformed(evt);
+            }
+        });
 
         btnMenos.setText("-");
+        btnMenos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenosActionPerformed(evt);
+            }
+        });
 
         btnDividir.setText("÷");
+        btnDividir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDividirActionPerformed(evt);
+            }
+        });
 
-        btnDelete.setText("delete");
+        btnBack.setText("←");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
+        btnIgual.setBackground(new java.awt.Color(51, 153, 255));
+        btnIgual.setText("=");
+        btnIgual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIgualActionPerformed(evt);
+            }
+        });
+
+        btnResto.setText("%");
+        btnResto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRestoActionPerformed(evt);
+            }
+        });
+
+        txtResultado.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtResultado.setText("0");
+        txtResultado.setActionCommand("<Not Set>");
+
+        btnDelete.setText("C");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
             }
         });
 
-        btnIgual.setBackground(new java.awt.Color(51, 153, 255));
-        btnIgual.setText("=");
+        btnPonto.setText(".");
+        btnPonto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPontoActionPerformed(evt);
+            }
+        });
 
-        btnResto.setText("%");
-
-        txtResultado.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtResultado.setText("0");
+        btnElevado.setText("^");
+        btnElevado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnElevadoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(160, 160, 160)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtResultado)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn7)
-                                .addGap(18, 18, 18)
-                                .addComponent(btn8)
-                                .addGap(19, 19, 19)
-                                .addComponent(btn9))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btn4)
                                 .addGap(18, 18, 18)
@@ -163,39 +263,57 @@ public class JFrameCalculadora extends javax.swing.JFrame {
                                 .addComponent(btn6))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btn0)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnElevado)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btn0))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(btn1)
                                         .addGap(18, 18, 18)
                                         .addComponent(btn2)))
-                                .addGap(19, 19, 19)
-                                .addComponent(btn3))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(19, 19, 19)
+                                        .addComponent(btn3))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnPonto))))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnResto)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(btnResto)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnDelete))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(btn7)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btn8)))
+                                .addGap(19, 19, 19)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btn9)
+                                    .addComponent(btnBack))))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnDividir)
                             .addComponent(btnVezes)
                             .addComponent(btnMenos)
                             .addComponent(btnMais)
-                            .addComponent(btnIgual))
-                        .addGap(7, 7, 7)))
-                .addContainerGap(173, Short.MAX_VALUE))
+                            .addComponent(btnIgual))))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnDividir, btnIgual, btnMais, btnMenos, btnResto, btnVezes});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnDividir, btnElevado, btnIgual, btnMais, btnMenos, btnPonto, btnResto, btnVezes});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(99, 99, 99)
+                .addGap(28, 28, 28)
                 .addComponent(txtResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDividir)
                     .addComponent(btnResto)
+                    .addComponent(btnBack)
                     .addComponent(btnDelete))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,72 +340,148 @@ public class JFrameCalculadora extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn0)
-                            .addComponent(btnIgual))))
-                .addContainerGap(128, Short.MAX_VALUE))
+                            .addComponent(btnIgual)
+                            .addComponent(btnPonto)
+                            .addComponent(btnElevado))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnDividir, btnIgual, btnMais, btnMenos, btnResto, btnVezes});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnDividir, btnElevado, btnIgual, btnMais, btnMenos, btnPonto, btnResto, btnVezes});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+    private double primeiroNumero = 0;
+    private String operador;
+    
+    /**
+     * Metodo de classe que apaga um valor no painel
+     * @param evt 
+     */
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         String valorAtual = txtResultado.getText();
         
-        if (!valorAtual.isEmpty()) {
+        if (valorAtual.equals("Erro") || valorAtual.length() <= 1) {
+            txtResultado.setText("0");
+        } else {
             txtResultado.setText(valorAtual.substring(0, valorAtual.length() - 1));
         }
-    }//GEN-LAST:event_btnDeleteActionPerformed
+    }//GEN-LAST:event_btnBackActionPerformed
 
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
-        String valorAtual = txtResultado.getText();
-        txtResultado.setText(valorAtual + "1");
+        adicionarNumero("1");
     }//GEN-LAST:event_btn1ActionPerformed
 
     private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
-        String valorAtual = txtResultado.getText();
-        txtResultado.setText(valorAtual + "2");
+        adicionarNumero("2");
     }//GEN-LAST:event_btn2ActionPerformed
 
     private void btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3ActionPerformed
-        String valorAtual = txtResultado.getText();
-        txtResultado.setText(valorAtual + "3");
+        adicionarNumero("3");
     }//GEN-LAST:event_btn3ActionPerformed
 
     private void btn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4ActionPerformed
-        String valorAtual = txtResultado.getText();
-        txtResultado.setText(valorAtual + "4");
+        adicionarNumero("4");
     }//GEN-LAST:event_btn4ActionPerformed
 
     private void btn5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5ActionPerformed
-        String valorAtual = txtResultado.getText();
-        txtResultado.setText(valorAtual + "5");
+        adicionarNumero("5");
     }//GEN-LAST:event_btn5ActionPerformed
 
     private void btn6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6ActionPerformed
-        String valorAtual = txtResultado.getText();
-        txtResultado.setText(valorAtual + "6");
+        adicionarNumero("6");
     }//GEN-LAST:event_btn6ActionPerformed
 
     private void btn7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7ActionPerformed
-        String valorAtual = txtResultado.getText();
-        txtResultado.setText(valorAtual + "7");
+        adicionarNumero("7");
     }//GEN-LAST:event_btn7ActionPerformed
 
     private void btn8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn8ActionPerformed
-        String valorAtual = txtResultado.getText();
-        txtResultado.setText(valorAtual + "8");
+        adicionarNumero("8");
     }//GEN-LAST:event_btn8ActionPerformed
 
     private void btn9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn9ActionPerformed
-        String valorAtual = txtResultado.getText();
-        txtResultado.setText(valorAtual + "9");
+        adicionarNumero("9");
     }//GEN-LAST:event_btn9ActionPerformed
 
     private void btn0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn0ActionPerformed
-                String valorAtual = txtResultado.getText();
-        txtResultado.setText(valorAtual + "0");
+        adicionarNumero("0");
     }//GEN-LAST:event_btn0ActionPerformed
+
+    /**
+     * Metodo de classe que apaga todos os valores do painel
+     * @param evt 
+     */
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        txtResultado.setText("0");
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnMaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaisActionPerformed
+        definirOperacao("+");
+    }//GEN-LAST:event_btnMaisActionPerformed
+
+    private void btnMenosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenosActionPerformed
+        definirOperacao("-");
+    }//GEN-LAST:event_btnMenosActionPerformed
+
+    private void btnVezesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVezesActionPerformed
+        definirOperacao("x");
+    }//GEN-LAST:event_btnVezesActionPerformed
+
+    private void btnDividirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDividirActionPerformed
+        definirOperacao("÷");
+    }//GEN-LAST:event_btnDividirActionPerformed
+
+    private void btnRestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestoActionPerformed
+        definirOperacao("%");
+    }//GEN-LAST:event_btnRestoActionPerformed
+
+    /**
+     * Metodo de classe que realiza operacoes matematicas
+     * @param evt 
+     */
+    private void btnIgualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIgualActionPerformed
+        try {
+            String valor = txtResultado.getText();
+            String[] partes = valor.split(" ");
+            
+            // Impede erro se o usuario nao digitar um segundo numero
+            if (partes.length < 3) return;
+            
+            double num1 = Double.parseDouble(partes[0]);
+            String op = partes[1];
+            double num2 = Double.parseDouble(partes[2]);
+            
+            double resultado = 0;
+            
+            switch(op) {
+                case "+": resultado = num1 + num2; break;
+                case "-": resultado = num1 - num2; break;
+                case "x": resultado = num1 * num2; break;
+                case "%": resultado = num1 % num2; break;
+                case "^": resultado = Math.pow(num1, num2); break;
+                case "÷":
+                    if (num2 != 0)
+                        resultado = num1 / num2;
+                    else {
+                        txtResultado.setText("Erro");
+                        return;
+                    }
+                    break;
+            }
+            txtResultado.setText(String.valueOf(resultado));
+        } catch (Exception e) {
+            txtResultado.setText("Erro");
+        }
+    }//GEN-LAST:event_btnIgualActionPerformed
+
+    private void btnPontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPontoActionPerformed
+        adicionarPonto();
+    }//GEN-LAST:event_btnPontoActionPerformed
+
+    private void btnElevadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElevadoActionPerformed
+        definirOperacao("^");
+    }//GEN-LAST:event_btnElevadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -335,11 +529,14 @@ public class JFrameCalculadora extends javax.swing.JFrame {
     private javax.swing.JButton btn7;
     private javax.swing.JButton btn8;
     private javax.swing.JButton btn9;
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDividir;
+    private javax.swing.JButton btnElevado;
     private javax.swing.JButton btnIgual;
     private javax.swing.JButton btnMais;
     private javax.swing.JButton btnMenos;
+    private javax.swing.JButton btnPonto;
     private javax.swing.JButton btnResto;
     private javax.swing.JButton btnVezes;
     private javax.swing.JTextField txtResultado;
