@@ -99,6 +99,12 @@ public class CadastrarAluno extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void limparFormulario(){
+        txtNome.setText("");
+        txtIdade.setText("");
+        txtCurso.setText("");
+    }
+    
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         Aluno a = new Aluno();
         AlunoDAO aDAO = new AlunoDAO();
@@ -116,6 +122,7 @@ public class CadastrarAluno extends javax.swing.JFrame {
         }
         
         aDAO.inserir(a);
+        limparFormulario();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     /**
