@@ -3,11 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/laboratorio/Desktop/LabJava-repo/JavaBD/src/DAO/AlunoDAO.java</file>
-            <file>file:/C:/Users/laboratorio/Desktop/LabJava-repo/JavaBD/src/DAO/ProfessorDAO.java</file>
-            <file>file:/C:/Users/laboratorio/Desktop/LabJava-repo/JavaBD/src/view/VerProfessores.java</file>
-            <file>file:/C:/Users/laboratorio/Desktop/LabJava-repo/JavaBD/src/view/CadastrarProfessor.java</file>
-            <file>file:/C:/Users/laboratorio/Desktop/LabJava-repo/JavaBD/src/view/VerAlunos.java</file>
+            <file>file:/C:/Users/Miguel/Desktop/LabJava-repo/JavaBD/src/view/RelatorioAlunos.java</file>
+            <file>file:/C:/Users/Miguel/Desktop/LabJava-repo/JavaBD/src/view/VerAlunos.java</file>
+            <file>file:/C:/Users/Miguel/Desktop/LabJava-repo/JavaBD/src/DAO/ProfessorDAO.java</file>
+            <file>file:/C:/Users/Miguel/Desktop/LabJava-repo/JavaBD/src/view/MenuPrincipal.java</file>
+            <file>file:/C:/Users/Miguel/Desktop/LabJava-repo/JavaBD/src/view/RelatorioProfessores.java</file>
+            <file>file:/C:/Users/Miguel/Desktop/LabJava-repo/JavaBD/src/DAO/AlunoDAO.java</file>
+            <file>file:/C:/Users/Miguel/Desktop/LabJava-repo/JavaBD/src/view/CadastrarAluno.java</file>
+            <file>file:/C:/Users/Miguel/Desktop/LabJava-repo/JavaBD/src/view/CadastrarProfessor.java</file>
         </group>
     </open-files>
 </project-private>

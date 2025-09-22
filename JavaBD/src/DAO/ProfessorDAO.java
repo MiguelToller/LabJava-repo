@@ -7,6 +7,8 @@ package DAO;
 import Conexao.Conexao;
 import beans.Professor;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -85,6 +87,67 @@ public class ProfessorDAO {
             stmt.execute();
         } catch (SQLException ex) {
             System.out.println("Erro ao atualizar professor: "+ex.getMessage());
+        }
+    }
+    
+    public List<Professor> getProfessores() {
+        String sql = "SELECT * FROM professor";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(
+                sql,
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY
+            );
+
+            ResultSet rs = stmt.executeQuery();
+
+            List<Professor> listaProfessores = new ArrayList<>();
+
+            while (rs.next()) {
+                Professor professor = new Professor();
+                professor.setId(rs.getInt("id"));
+                professor.setNome(rs.getString("nome"));
+                professor.setIdade(rs.getInt("idade"));
+                professor.setDisciplina(rs.getString("disciplina"));
+
+                listaProfessores.add(professor);
+            }
+
+            return listaProfessores;
+        } catch (SQLException ex) {
+            System.out.println("Erro ao consultar todos os professores: " + ex.getMessage());
+            return null;
+        }
+    }
+    
+    public List<Professor> getProfessoresNome(String nome) {
+        String sql = "SELECT * FROM professor WHERE nome LIKE ?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(
+                sql,
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY
+            );
+            stmt.setString(1, "%" + nome + "%");
+
+            ResultSet rs = stmt.executeQuery();
+
+            List<Professor> listaProfessores = new ArrayList<>();
+
+            while (rs.next()) {
+                Professor professor = new Professor();
+                professor.setId(rs.getInt("id"));
+                professor.setNome(rs.getString("nome"));
+                professor.setIdade(rs.getInt("idade"));
+                professor.setDisciplina(rs.getString("disciplina"));
+
+                listaProfessores.add(professor);
+            }
+
+            return listaProfessores;
+        } catch (SQLException ex) {
+            System.out.println("Erro ao consultar professores pelo nome: " + ex.getMessage());
+            return null;
         }
     }
     

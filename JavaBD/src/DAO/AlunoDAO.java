@@ -7,6 +7,8 @@ package DAO;
 import Conexao.Conexao;
 import beans.Aluno;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -87,4 +89,66 @@ public class AlunoDAO {
             System.out.println("Erro ao atualizar aluno: "+ex.getMessage());
         }
     }
+    
+    public List<Aluno> getAlunos() {
+        String sql = "SELECT * FROM aluno";  // tabela aluno
+        try {
+            PreparedStatement stmt = conn.prepareStatement(
+                sql,
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY
+            );
+
+            ResultSet rs = stmt.executeQuery(); // executa a consulta
+
+            List<Aluno> listaAlunos = new ArrayList<>(); // lista de alunos
+
+            while (rs.next()) {
+                Aluno aluno = new Aluno();
+                aluno.setId(rs.getInt("id"));
+                aluno.setNome(rs.getString("nome"));
+                aluno.setIdade(rs.getInt("idade"));
+                aluno.setCurso(rs.getString("curso"));
+
+                listaAlunos.add(aluno);
+            }
+
+            return listaAlunos;
+        } catch (SQLException ex) {
+            System.out.println("Erro ao consultar todos os alunos: " + ex.getMessage());
+            return null;
+        }
+    }
+    
+    public List<Aluno> getAlunosNome(String nome) {
+        String sql = "SELECT * FROM aluno WHERE nome LIKE ?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(
+                sql,
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY
+            );
+            stmt.setString(1, "%" + nome + "%");
+
+            ResultSet rs = stmt.executeQuery();
+
+            List<Aluno> listaAlunos = new ArrayList<>();
+
+            while (rs.next()) {
+                Aluno aluno = new Aluno();
+                aluno.setId(rs.getInt("id"));
+                aluno.setNome(rs.getString("nome"));
+                aluno.setIdade(rs.getInt("idade"));
+                aluno.setCurso(rs.getString("curso"));
+
+                listaAlunos.add(aluno);
+            }
+
+            return listaAlunos;
+        } catch (SQLException ex) {
+            System.out.println("Erro ao consultar alunos pelo nome: " + ex.getMessage());
+            return null;
+        }
+    }
+    
 }
