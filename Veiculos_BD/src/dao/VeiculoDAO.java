@@ -42,35 +42,51 @@ public class VeiculoDAO {
         }
     }
     
+
     public Veiculo getVeiculo(int id) {
         String sql = "SELECT * FROM veiculo WHERE id = ?";
         try {
-            PreparedStatement stmt = conn.prepareStatement(sql);
+            PreparedStatement stmt = conn.prepareStatement(
+                sql,
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE
+            );
+
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
-            
-            if (rs.next()) {
-                Veiculo veiculo = new Veiculo();
-                veiculo.setId(rs.getInt("id"));
-                veiculo.setMarca(rs.getString("marca"));
-                veiculo.setModelo(rs.getString("modelo"));
-                veiculo.setAno(rs.getInt("ano"));
-                veiculo.setPlaca(rs.getString("placa"));
-                veiculo.setCor(rs.getString("cor"));
-                
-                return veiculo;
-            } else {
-                return null;
+
+            if (!rs.first()) {
+                return null; // veículo não encontrado
             }
+
+            Veiculo v = new Veiculo();
+            v.setId(rs.getInt("id"));
+            v.setMarca(rs.getString("marca"));   // <--- adiciona marca
+            v.setModelo(rs.getString("modelo"));
+            v.setAno(rs.getInt("ano"));           // <--- adiciona ano
+            v.setPlaca(rs.getString("placa"));
+            v.setCor(rs.getString("cor"));        // <--- adiciona cor
+
+            PessoaDAO pDAO = new PessoaDAO();
+            Pessoa p = pDAO.getPessoaPorId(rs.getInt("pessoa_id"));
+            v.setPessoaId(p);
+
+            rs.close();
+            stmt.close();
+
+            return v;
+
         } catch (SQLException ex) {
-            System.out.println("Erro ao consultar veiculo: " + ex.getMessage());
+            System.out.println("Erro ao consultar veículo: " + ex.getMessage());
             return null;
         }
     }
+
+
     
     public void editar(Veiculo veiculo) {
-        String sql = "UPDATE veiculo set (marca=?, modelo=?, ano=?, placa=?, cor=?, pessoa_id=?) WHERE id=?";
-            
+        String sql = "UPDATE veiculo SET marca=?, modelo=?, ano=?, placa=?, cor=?, pessoa_id=? WHERE id=?";
+
         try {
             PreparedStatement stmt = this.conn.prepareStatement(sql);
             stmt.setString(1, veiculo.getMarca());
@@ -79,13 +95,15 @@ public class VeiculoDAO {
             stmt.setString(4, veiculo.getPlaca());
             stmt.setString(5, veiculo.getCor());
             stmt.setInt(6, veiculo.getPessoaId().getId());
-            
-            stmt.execute();
+            stmt.setInt(7, veiculo.getId());               
+
+            stmt.executeUpdate();
+            stmt.close();
         } catch (SQLException ex) {
-            System.out.println("Erro ao atualizar veiculo: "+ex.getMessage());
+            System.out.println("Erro ao atualizar veiculo: " + ex.getMessage());
         }       
     }
-    
+
     public void excluir(int id) {
         String sql = "DELETE from veiculo where id=?";
         

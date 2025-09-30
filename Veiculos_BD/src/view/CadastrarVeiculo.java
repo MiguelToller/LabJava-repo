@@ -197,6 +197,7 @@ public class CadastrarVeiculo extends javax.swing.JFrame {
         
         if (txtMarca.getText().isBlank() || txtModelo.getText().isBlank() || txtAno.getText().isBlank() || txtPlaca.getText().isBlank()) {
             JOptionPane.showMessageDialog(null, "Todos os campos devem estar preenchidos", "ERRO", JOptionPane.ERROR_MESSAGE);
+            return;
         }
         
         if(rdo_Preto.isSelected()) cor = "preto";
@@ -204,6 +205,10 @@ public class CadastrarVeiculo extends javax.swing.JFrame {
         else if(rdo_Prata.isSelected()) cor = "prata";
         else if(rdo_Vermelho.isSelected()) cor = "vermelho";
         else if(rdo_Azul.isSelected()) cor = "azul";
+        else {
+            JOptionPane.showMessageDialog(null, "Selecione uma cor.", "ERRO", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
         try {
             v.setMarca(txtMarca.getText());
@@ -214,18 +219,21 @@ public class CadastrarVeiculo extends javax.swing.JFrame {
             
             // Pega o objeto Pessoa
             Pessoa pessoaSelecionada = (Pessoa) cmbPessoas.getSelectedItem();
-            if (pessoaSelecionada != null) {v.setPessoaId(pessoaSelecionada); // Atribui a pessoa ao veículo
+            
+            if (pessoaSelecionada != null) {
+                v.setPessoaId(pessoaSelecionada); // Atribui a pessoa ao veículo
             } else {
                 JOptionPane.showMessageDialog(null, "Selecione uma pessoa.", "ERRO", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            
+            vDAO.inserir(v);
+            JOptionPane.showMessageDialog(null, "Veiculo Cadastrado com sucesso!");
+            limparFormulario();
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro inesperado: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
         }
-        
-        vDAO.inserir(v);
-        JOptionPane.showMessageDialog(null, "Veiculo Cadastrado com sucesso!");
-        limparFormulario();
     }//GEN-LAST:event_btnInserirActionPerformed
 
     /**

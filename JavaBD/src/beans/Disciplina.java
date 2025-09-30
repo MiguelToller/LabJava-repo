@@ -8,12 +8,12 @@ package beans;
  *
  * @author laboratorio
  */
-public class Professor {
+public class Disciplina {
     
     private int id;
     private String nome;
-    private int idade;
-    private String disciplina;
+    private int cargaHoraria;
+    private int idProfessor; 
 
     public int getId() {
         return id;
@@ -31,27 +31,20 @@ public class Professor {
         this.nome = nome;
     }
 
-    public int getIdade() {
-        return idade;
+    public int getCargaHoraria() {
+        return cargaHoraria;
     }
 
-    public void setIdade(int idade) {
-        this.idade = idade;
+    public void setCargaHoraria(int cargaHoraria) {
+        this.cargaHoraria = cargaHoraria;
     }
 
-    public String getDisciplina() {
-        return disciplina;
+    public int getIdProfessor() {
+        return idProfessor;
     }
 
-    public void setDisciplina(String disciplina) {
-        this.disciplina = disciplina;
+    public void setIdProfessor(int idProfessor) {
+        this.idProfessor = idProfessor;
     }
 
-    @Override
-    public String toString() {
-        return nome;
-    }
-    
-    
-    
 }
